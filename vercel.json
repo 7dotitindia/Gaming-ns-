@@ -1,0 +1,5 @@
+{
+  "installCommand": "cd playground && npm install",
+  "buildCommand": "cd playground && npm run build",
+  "outputDirectory": "playground/dist"
+}
