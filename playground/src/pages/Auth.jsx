@@ -20,7 +20,7 @@ function AuthForm({ mode }) {
   }
   // Plain function (not a component) so inputs keep focus between renders.
   const field = (k, label, type = 'text', p = {}) => (
-    <div key={k}><label className="label" htmlFor={k}>{label}</label><input id={k} type={type} className={`field ${err[k] ? '!border-red-500' : ''}`} value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} aria-invalid={!!err[k]} {...p} />{err[k] && <p className="mt-1 text-xs text-red-400">{err[k]}</p>}</div>
+    <div key={k}><label className="label" htmlFor={k}>{label}</label><input id={k} type={type} className={`field ${err[k] ? '!border-red-500' : ''}`} value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} aria-invalid={!!err[k]} {...p} />{err[k] && <p className="mt-1 text-xs text-red-500">{err[k]}</p>}</div>
   )
   return (
     <Page title={reg ? 'Create account' : 'Sign in'} wide>
@@ -31,7 +31,7 @@ function AuthForm({ mode }) {
           {reg && field('name', 'Display name', 'text', { autoComplete: 'nickname' })}
           {field('email', 'Email', 'email', { autoComplete: 'email' })}
           {field('password', 'Password', 'password', { autoComplete: reg ? 'new-password' : 'current-password' })}
-          <label className="flex items-center gap-2 text-xs text-mute"><input type="checkbox" checked={f.admin} onChange={(e) => setF({ ...f, admin: e.target.checked })} className="accent-[#FF4D3D]" />Demo: sign in as admin (shows the Admin CMS)</label>
+          <label className="flex items-center gap-2 text-xs text-mute"><input type="checkbox" checked={f.admin} onChange={(e) => setF({ ...f, admin: e.target.checked })} className="accent-[#4F46E5]" />Demo: sign in as admin (shows the Admin CMS)</label>
           <button className="btn btn-primary w-full h-11">{reg ? 'Create account' : 'Sign in'}</button>
           <p className="text-center text-sm text-mute">{reg ? 'Already have an account?' : 'New here?'} <Link to={reg ? '/login' : '/register'} state={state} className="text-accent hover:underline">{reg ? 'Sign in' : 'Create an account'}</Link></p>
         </form>

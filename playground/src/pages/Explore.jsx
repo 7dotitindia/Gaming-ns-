@@ -12,19 +12,19 @@ const licenseKind = (a) => (a.license.startsWith('CC0') ? 'CC0' : a.license.incl
 
 const Group = ({ title, children }) => <fieldset className="border-b border-line py-4 first:pt-0"><legend className="label">{title}</legend><div className="space-y-2">{children}</div></fieldset>
 const Check = ({ checked, onChange, children }) => (
-  <label className="flex cursor-pointer items-center gap-2 text-sm text-warm/80"><input type="checkbox" checked={checked} onChange={onChange} className="h-4 w-4 accent-[#FF4D3D]" />{children}</label>
+  <label className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="checkbox" checked={checked} onChange={onChange} className="h-4 w-4 accent-[#4F46E5]" />{children}</label>
 )
 
 function Filters({ f, set, toggle, reset }) {
   return (
     <div>
       <Group title="Price">{[['', 'All'], ['free', 'Free'], ['premium', 'Premium']].map(([v, l]) => (
-        <label key={v} className="flex cursor-pointer items-center gap-2 text-sm text-warm/80"><input type="radio" name="price" checked={f.price === v} onChange={() => set({ price: v })} className="accent-[#FF4D3D]" />{l}</label>))}</Group>
+        <label key={v} className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="radio" name="price" checked={f.price === v} onChange={() => set({ price: v })} className="accent-[#4F46E5]" />{l}</label>))}</Group>
       <Group title="File format"><div className="flex flex-wrap gap-1.5">{allFormats.map((x) => <Chip key={x} on={f.fmt.includes(x)} onClick={() => toggle('fmt', x)}>{x}</Chip>)}</div></Group>
       <Group title="Compatibility"><div className="flex flex-wrap gap-1.5">{allCompat.slice(0, 12).map((x) => <Chip key={x} on={f.compat.includes(x)} onClick={() => toggle('compat', x)}>{x}</Chip>)}</div></Group>
       <Group title="License">{['Free', 'Standard', 'Extended', 'CC0'].map((l) => <Check key={l} checked={f.lic.includes(l)} onChange={() => toggle('lic', l)}>{l}</Check>)}</Group>
       <Group title="Minimum rating">{[0, 4, 4.5, 4.8].map((r) => (
-        <label key={r} className="flex cursor-pointer items-center gap-2 text-sm text-warm/80"><input type="radio" name="rating" checked={f.rating === r} onChange={() => set({ rating: r })} className="accent-[#FF4D3D]" />{r ? `${r}+ stars` : 'Any'}</label>))}</Group>
+        <label key={r} className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="radio" name="rating" checked={f.rating === r} onChange={() => set({ rating: r })} className="accent-[#4F46E5]" />{r ? `${r}+ stars` : 'Any'}</label>))}</Group>
       <Group title="Creator"><select className="field" value={f.creator} onChange={(e) => set({ creator: e.target.value })} aria-label="Creator"><option value="">All creators</option>{creators.map((c) => <option key={c.username} value={c.username}>{c.name}</option>)}</select></Group>
       <button className="btn btn-secondary mt-4 w-full" onClick={reset}>Reset filters</button>
     </div>
@@ -62,7 +62,7 @@ export function Explore({ preset }) {
     return r
   }, [cat, q, f, sort])
 
-  const title = category?.name || { trending: 'Trending assets', free: 'Free assets', premium: 'Premium assets' }[preset] || (q ? `Results for “${q}”` : 'Explore assets')
+  const title = category?.name || { trending: 'Trending assets', free: 'Free assets', premium: 'Premium assets' }[preset] || (q ? `Results for "${q}"` : 'Explore assets')
   const activeCount = f.fmt.length + f.compat.length + f.lic.length + (f.price ? 1 : 0) + (f.rating ? 1 : 0) + (f.creator ? 1 : 0)
 
   return (
@@ -106,8 +106,8 @@ export function Explore({ preset }) {
 
       {drawer && (
         <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal aria-label="Filters">
-          <div className="absolute inset-0 bg-black/70" onClick={() => setDrawer(false)} />
-          <div className="absolute inset-x-0 bottom-0 max-h-[80vh] overflow-y-auto rounded-t-2xl border-t border-line bg-ink p-5">
+          <div className="absolute inset-0 bg-warm/20" onClick={() => setDrawer(false)} />
+          <div className="absolute inset-x-0 bottom-0 max-h-[80vh] overflow-y-auto rounded-t-2xl border-t border-line bg-ink p-5 shadow-xl">
             <div className="mb-4 flex items-center justify-between"><h2 className="text-lg font-bold">Filters</h2><button className="btn btn-ghost btn-sm" onClick={() => setDrawer(false)} aria-label="Close"><Icon name="X" /></button></div>
             <Filters {...{ f, set, toggle, reset }} /><button className="btn btn-primary mt-4 w-full" onClick={() => setDrawer(false)}>Show {list.length} results</button>
           </div>
@@ -124,7 +124,7 @@ export function Categories() {
       <h1 className="mb-8 text-3xl font-bold md:text-4xl">Browse by category</h1>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((c) => (
-          <Link key={c.slug} to={`/assets/${c.slug}`} className="card group overflow-hidden transition hover:border-accent">
+          <Link key={c.slug} to={`/assets/${c.slug}`} className="card group overflow-hidden transition hover:border-accent hover:shadow-md">
             <div className="aspect-[16/7] overflow-hidden"><div className="h-full transition duration-300 group-hover:scale-105"><Art kind={c.art} seed={c.slug.length} /></div></div>
             <div className="flex items-start gap-3 p-4"><span className="text-accent"><Icon name={c.icon} size={22} /></span><div><h2 className="font-semibold">{c.name}</h2><p className="mt-1 text-sm text-mute">{c.blurb}</p><p className="mt-2 font-mono text-[11px] uppercase text-mute">{assets.filter((a) => a.cat === c.slug).length} sample assets</p></div></div>
           </Link>))}

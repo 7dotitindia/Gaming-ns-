@@ -32,7 +32,7 @@ const Num = ({ label, value, onChange, ...p }) => (
   <label className="block"><span className="label">{label}</span><input type="number" className="field !h-8 px-2 text-xs" value={Math.round(value)} onChange={(e) => onChange(+e.target.value)} {...p} /></label>
 )
 const Color = ({ label, value, onChange }) => (
-  <label className="block"><span className="label">{label}</span><span className="flex h-8 items-center gap-2 rounded-lg border border-line bg-ink px-1.5"><span className="h-5 w-5 overflow-hidden rounded"><input type="color" value={value} onChange={(e) => onChange(e.target.value)} aria-label={label} /></span><span className="font-mono text-xs text-mute">{value}</span></span></label>
+  <label className="block"><span className="label">{label}</span><span className="flex h-8 items-center gap-2 rounded-lg border border-line bg-raise px-1.5"><span className="h-5 w-5 overflow-hidden rounded"><input type="color" value={value} onChange={(e) => onChange(e.target.value)} aria-label={label} /></span><span className="font-mono text-xs text-mute">{value}</span></span></label>
 )
 
 function Editor({ tool }) {
@@ -169,7 +169,7 @@ function Editor({ tool }) {
 
         <section ref={wrap} className="order-1 grid min-h-[320px] place-items-center overflow-auto bg-raise p-4 lg:order-2" aria-label="Canvas">
           <canvas ref={cv} onPointerDown={down} onPointerMove={dragMove} onPointerUp={up} role="img" aria-label={`${name} canvas, ${doc.w} by ${doc.h}`}
-            style={{ width: doc.w * z, height: doc.h * z, touchAction: 'none', cursor: 'default', boxShadow: '0 0 0 1px #3A322B, 0 20px 60px #000' }}
+            style={{ width: doc.w * z, height: doc.h * z, touchAction: 'none', cursor: 'default', boxShadow: '0 0 0 1px #E0E4ED, 0 20px 60px rgba(0,0,0,.1)' }}
             className={fmt === 'png' && transparent ? '[background:repeating-conic-gradient(#d4d4d8_0_25%,#f4f4f5_0_50%)_0_0/16px_16px]' : ''} />
         </section>
 

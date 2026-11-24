@@ -43,7 +43,7 @@ export default function Dashboard({ tab }) {
   return (
     <Page title={title}>
       <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
-        <nav aria-label="Dashboard" className="scroll-hide flex gap-1 overflow-x-auto lg:block lg:space-y-1">{nav.map(([k, l, ic, to]) => <Link key={k} to={to} aria-current={tab === k ? 'page' : undefined} className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ${tab === k ? 'bg-graphite text-warm' : 'text-mute hover:text-warm'}`}><Icon name={ic} size={16} className={tab === k ? 'text-accent' : ''} />{l}</Link>)}</nav>
+        <nav aria-label="Dashboard" className="scroll-hide flex gap-1 overflow-x-auto lg:block lg:space-y-1">{nav.map(([k, l, ic, to]) => <Link key={k} to={to} aria-current={tab === k ? 'page' : undefined} className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ${tab === k ? 'bg-raise text-warm font-medium' : 'text-mute hover:text-warm'}`}><Icon name={ic} size={16} className={tab === k ? 'text-accent' : ''} />{l}</Link>)}</nav>
         <div><h1 className="mb-6 text-3xl font-bold">{tab === 'overview' ? `Welcome back, ${user.name}` : title}</h1>{body}</div>
       </div>
       <Modal open={!!del} onClose={() => setDel(null)} title="Delete permanently?"><p className="text-sm text-mute">“{del?.label}” will be removed. This can’t be undone.</p><div className="mt-5 flex justify-end gap-2"><button className="btn btn-secondary" onClick={() => setDel(null)}>Cancel</button><button className="btn btn-primary" onClick={confirm}>Delete</button></div></Modal>

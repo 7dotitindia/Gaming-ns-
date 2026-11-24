@@ -36,11 +36,11 @@ const Range = ({ label, v, set, min, max, step = 1 }) => <label className="block
 const Out = ({ label, value }) => <div className="card p-4"><p className="label !mb-1">{label}</p><p className="font-display text-2xl font-bold">{value}</p></div>
 
 /* ---------- Crosshair ---------- */
-const CH0 = { style: 'cross', size: 8, gap: 4, thick: 2, outline: true, color: '#FF4D3D', dot: false }
+const CH0 = { style: 'cross', size: 8, gap: 4, thick: 2, outline: true, color: '#4F46E5', dot: false }
 function Crosshair({ tool }) {
   const { toast } = useApp(); const [c, setC] = useState(CH0); const cv = useRef(); const set = (k) => (v) => setC((x) => ({ ...x, [k]: v }))
   useEffect(() => {
-    const g = cv.current.getContext('2d'); const W = 240, m = W / 2; g.clearRect(0, 0, W, W); g.fillStyle = '#16120F'; g.fillRect(0, 0, W, W)
+    const g = cv.current.getContext('2d'); const W = 240, m = W / 2; g.clearRect(0, 0, W, W); g.fillStyle = '#1E1B4B'; g.fillRect(0, 0, W, W)
     const S = 4; const draw = (col, extra = 0) => {
       g.fillStyle = col; g.strokeStyle = col; g.lineWidth = (c.thick + extra) * S
       if (c.style === 'circle') { g.beginPath(); g.arc(m, m, (c.size + c.gap) * S, 0, 7); g.stroke() }
@@ -60,7 +60,7 @@ function Crosshair({ tool }) {
           <div className="grid gap-4 sm:grid-cols-2"><Toggle label="Outline" checked={c.outline} onChange={set('outline')} /><Toggle label="Center dot" checked={c.dot} onChange={set('dot')} /></div>
           <label className="flex items-center gap-3 text-sm">Colour<input type="color" value={c.color} onChange={(e) => set('color')(e.target.value)} className="!h-8 !w-12" /><span className="font-mono text-xs text-mute">{c.color}</span></label>
           <div className="flex flex-wrap gap-2"><button className="btn btn-primary btn-sm" onClick={() => copy(cmd, toast)}>Copy console commands</button><button className="btn btn-secondary btn-sm" onClick={() => copy(JSON.stringify(c), toast)}>Copy JSON</button></div>
-          <code className="block break-all rounded-lg bg-ink p-3 font-mono text-[11px] text-mute">{cmd}</code>
+          <code className="block break-all rounded-lg bg-raise p-3 font-mono text-[11px] text-mute">{cmd}</code>
         </div>
       </div>
     </Shell>
@@ -157,12 +157,12 @@ function Pc({ tool }) {
 const hsl = (h, s, l) => { s /= 100; l /= 100; const a = s * Math.min(l, 1 - l), f = (n) => { const k = (n + h / 30) % 12; return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)) }; return '#' + [f(0), f(8), f(4)].map((x) => Math.round(x * 255).toString(16).padStart(2, '0')).join('') }
 const makePalette = () => { const h = Math.random() * 360; return [hsl(h, 70, 55), hsl((h + 30) % 360, 60, 40), hsl((h + 180) % 360, 55, 50), hsl(h, 20, 15), hsl(h, 25, 90)] }
 function Palette({ tool }) {
-  const { toast } = useApp(); const [cols, setCols] = useState(() => ['#FF4D3D', '#9A8F82', '#1B1815', '#12100E', '#F4ECDF']); const [locked, setLocked] = useState([])
+  const { toast } = useApp(); const [cols, setCols] = useState(() => ['#4F46E5', '#10B981', '#0EA5E9', '#1E293B', '#F8FAFC']); const [locked, setLocked] = useState([])
   const gen = () => { const n = makePalette(); setCols(cols.map((c, i) => (locked.includes(i) ? c : n[i]))) }
   useEffect(() => { const k = (e) => { if (e.code === 'Space' && !/INPUT|SELECT|TEXTAREA|BUTTON/.test(e.target.tagName)) { e.preventDefault(); gen() } }; window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) })
   const exp = (fmt) => copy(fmt === 'css' ? `:root {\n${cols.map((c, i) => `  --color-${i + 1}: ${c};`).join('\n')}\n}` : JSON.stringify(cols), toast)
   return (
-    <Shell tool={tool} onReset={() => { setCols(['#FF4D3D', '#9A8F82', '#1B1815', '#12100E', '#F4ECDF']); setLocked([]) }}>
+    <Shell tool={tool} onReset={() => { setCols(['#4F46E5', '#10B981', '#0EA5E9', '#1E293B', '#F8FAFC']); setLocked([]) }}>
       <div className="grid h-64 grid-cols-5 overflow-hidden rounded-xl border border-line">{cols.map((c, i) => (
         <div key={i} className="flex flex-col items-center justify-end gap-2 pb-4" style={{ background: c }}>
           <button onClick={() => setLocked(locked.includes(i) ? locked.filter((x) => x !== i) : [...locked, i])} aria-pressed={locked.includes(i)} aria-label={`${locked.includes(i) ? 'Unlock' : 'Lock'} colour ${i + 1}`} className="grid h-8 w-8 place-items-center rounded-full bg-black/40 text-white"><Icon name={locked.includes(i) ? 'Lock' : 'LockOpen'} size={14} /></button>
@@ -195,10 +195,10 @@ function Setup({ tool }) {
     <Shell tool={tool} onReset={() => { setDone([]); setExtra([]) }}>
       <div className="grid gap-6 md:grid-cols-2">
         <div className="card p-5"><h2 className="mb-3 font-semibold">Checklist · {done.filter((d) => all.includes(d)).length}/{all.length}</h2>
-          <ul className="space-y-2">{all.map((c) => <li key={c}><label className="flex cursor-pointer items-center gap-2 text-sm"><input type="checkbox" className="accent-[#FF4D3D]" checked={done.includes(c)} onChange={() => setDone(done.includes(c) ? done.filter((x) => x !== c) : [...done, c])} /><span className={done.includes(c) ? 'text-mute line-through' : ''}>{c}</span></label></li>)}</ul>
+          <ul className="space-y-2">{all.map((c) => <li key={c}><label className="flex cursor-pointer items-center gap-2 text-sm"><input type="checkbox" className="accent-[#4F46E5]" checked={done.includes(c)} onChange={() => setDone(done.includes(c) ? done.filter((x) => x !== c) : [...done, c])} /><span className={done.includes(c) ? 'text-mute line-through' : ''}>{c}</span></label></li>)}</ul>
           <form className="mt-4 flex gap-2" onSubmit={(e) => { e.preventDefault(); if (txt.trim() && !all.includes(txt.trim())) setExtra([...extra, txt.trim()]); setTxt('') }}><input className="field" value={txt} onChange={(e) => setTxt(e.target.value)} placeholder="Add your own item" aria-label="New item" /><button className="btn btn-secondary">Add</button></form></div>
         <div className="card h-fit p-5"><h2 className="mb-3 font-semibold">Desk fit</h2><div className="grid gap-4 sm:grid-cols-3">{[['Desk width (cm)', desk, setDesk], ['Monitors', mons, setMons], ['Diagonal (in)', diag, setDiag]].map(([l, v, s]) => <label key={l}><span className="label">{l}</span><input type="number" min="1" className="field" value={v} onChange={(e) => s(+e.target.value)} /></label>)}</div>
-          <div className="mt-5 h-3 overflow-hidden rounded-full bg-ink"><div className={`h-full ${need > desk ? 'bg-red-500' : 'bg-accent'}`} style={{ width: `${Math.min(100, (need / desk) * 100)}%` }} /></div>
+          <div className="mt-5 h-3 overflow-hidden rounded-full bg-raise"><div className={`h-full ${need > desk ? 'bg-red-500' : 'bg-accent'}`} style={{ width: `${Math.min(100, (need / desk) * 100)}%` }} /></div>
           <p className="mt-3 text-sm" aria-live="polite">{need > desk ? `Monitors need about ${Math.round(need)} cm but the desk is ${desk} cm — too wide.` : `Monitors take about ${Math.round(need)} cm of ${desk} cm (16:9 estimate).`}</p></div>
       </div>
     </Shell>

@@ -13,7 +13,7 @@ function ShotTile({ s }) {
   return (
     <Link to={`/shots/${s.slug}`} className="group relative mb-4 block break-inside-avoid overflow-hidden rounded-xl border border-line">
       <div className={`${s.ratio} transition duration-300 group-hover:scale-[1.03]`}><Art kind={s.art} seed={s.seed} src={s.img} label={s.title} /></div>
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/90 to-transparent p-3 opacity-0 transition group-hover:opacity-100 focus-within:opacity-100">
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-warm/90 to-transparent p-3 opacity-0 transition group-hover:opacity-100 focus-within:opacity-100">
         <div><p className="text-sm font-semibold">{s.title}</p><p className="text-xs text-mute">{cr.name}</p></div>
         <span className="inline-flex items-center gap-1 text-xs"><Icon name="Heart" size={13} />{s.likes}</span>
       </div>

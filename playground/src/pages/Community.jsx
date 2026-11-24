@@ -63,7 +63,7 @@ function Upload() {
       <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
         <div className="card space-y-5 p-6">
           {step === 0 && <>
-            <div><span className="label">Preview image *</span><label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-line bg-ink p-8 text-center hover:border-accent"><Icon name="ImagePlus" size={26} className="text-mute" /><span className="mt-2 text-sm">{f.previewName || 'Choose PNG, JPG or WebP (max 5 MB)'}</span><input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" onChange={pickPreview} /></label><E k="preview" /></div>
+            <div><span className="label">Preview image *</span><label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-line bg-raise p-8 text-center hover:border-accent"><Icon name="ImagePlus" size={26} className="text-mute" /><span className="mt-2 text-sm">{f.previewName || 'Choose PNG, JPG or WebP (max 5 MB)'}</span><input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" onChange={pickPreview} /></label><E k="preview" /></div>
             <div><label className="label" htmlFor="src">Source file name (optional)</label><input id="src" className="field" value={f.source} onChange={(e) => set('source', e.target.value)} placeholder="e.g. hud-kit-source.zip" /><p className="mt-1 text-xs text-mute">Source files upload to private storage once the backend is connected. Only the name is recorded in this prototype.</p></div></>}
           {step === 1 && <>
             <div><label className="label" htmlFor="ti">Title *</label><input id="ti" className="field" value={f.title} onChange={(e) => set('title', e.target.value)} /><E k="title" /></div>
@@ -74,7 +74,7 @@ function Upload() {
           {step === 2 && <>
             <div><label className="label" htmlFor="li">License</label><select id="li" className="field" value={f.license} onChange={(e) => set('license', e.target.value)}>{['Free', 'Standard', 'Extended', 'CC0'].map((l) => <option key={l}>{l}</option>)}</select></div>
             <div><label className="label" htmlFor="pr">Price (USD, 0 = free)</label><input id="pr" type="number" min="0" className="field" value={f.price} onChange={(e) => set('price', e.target.value)} /><E k="price" /></div>
-            <p className="rounded-lg border border-line bg-ink p-3 text-xs text-mute">Creator earnings, commission and payout rules are defined before paid sales go live (Release 4).</p></>}
+            <p className="rounded-lg border border-line bg-raise p-3 text-xs text-mute">Creator earnings, commission and payout rules are defined before paid sales go live (Release 4).</p></>}
           {step === 3 && <p className="text-sm text-mute">Review your listing on the right. By submitting you confirm you own the rights to everything uploaded.</p>}
           <div className="flex justify-between pt-2"><button className="btn btn-secondary" disabled={!step} onClick={() => setStep(step - 1)}>Back</button>{step < 3 ? <button className="btn btn-primary" onClick={next}>Continue</button> : <button className="btn btn-primary" onClick={submit}>Submit for review</button>}</div>
         </div>

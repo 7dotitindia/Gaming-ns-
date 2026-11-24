@@ -18,10 +18,10 @@ function Dropdown({ m }) {
   return (
     <div ref={ref} className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button aria-expanded={open} aria-haspopup="menu" onClick={() => setOpen(!open)} onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
-        className="flex h-9 items-center gap-1 rounded-lg px-3 text-sm text-warm/80 hover:text-warm">{m.label}<Icon name="ChevronDown" size={13} /></button>
+        className="flex h-9 items-center gap-1 rounded-lg px-3 text-sm text-warm/70 hover:text-warm">{m.label}<Icon name="ChevronDown" size={13} /></button>
       {open && (
         <div role="menu" className="absolute left-0 top-full z-50 w-56 pt-1">
-          <div className="card p-1.5 shadow-2xl">{m.items.map(([l, to]) => <Link role="menuitem" key={l} to={to} onClick={() => setOpen(false)} className="block rounded-md px-3 py-2 text-sm text-warm/80 hover:bg-raise hover:text-warm">{l}</Link>)}</div>
+          <div className="rounded-xl border border-line bg-white p-1.5 shadow-lg">{m.items.map(([l, to]) => <Link role="menuitem" key={l} to={to} onClick={() => setOpen(false)} className="block rounded-md px-3 py-2 text-sm text-warm/70 hover:bg-raise hover:text-warm">{l}</Link>)}</div>
         </div>
       )}
     </div>
@@ -34,12 +34,12 @@ function UserMenu() {
   if (!user) return <><Link to="/login" className="btn btn-ghost btn-sm hidden sm:inline-flex">Sign in</Link><Link to="/pricing" className="btn btn-primary btn-sm">Join Pro</Link></>
   return (
     <div ref={ref} className="relative">
-      <button onClick={() => setOpen(!open)} aria-label="Account menu" aria-expanded={open} className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-ink">{user.name[0].toUpperCase()}</button>
+      <button onClick={() => setOpen(!open)} aria-label="Account menu" aria-expanded={open} className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-white">{user.name[0].toUpperCase()}</button>
       {open && (
-        <div className="card absolute right-0 top-full z-50 mt-2 w-52 p-1.5 shadow-2xl" role="menu">
+        <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-line bg-white p-1.5 shadow-lg" role="menu">
           <p className="px-3 py-2 text-xs text-mute">Signed in as <span className="text-warm">{user.name}</span></p>
           {[['Dashboard', '/dashboard'], ['Downloads', '/downloads'], ['Favorites', '/favorites'], ['My designs', '/my-designs'], ['Settings', '/settings'], ...(user.role === 'admin' ? [['Admin CMS', '/admin']] : [])].map(([l, to]) => <Link key={to} to={to} onClick={() => setOpen(false)} className="block rounded-md px-3 py-2 text-sm hover:bg-raise" role="menuitem">{l}</Link>)}
-          <button onClick={() => { logout(); setOpen(false) }} className="block w-full rounded-md px-3 py-2 text-left text-sm text-accent hover:bg-raise" role="menuitem">Sign out</button>
+          <button onClick={() => { logout(); setOpen(false) }} className="block w-full rounded-md px-3 py-2 text-left text-sm text-coral hover:bg-raise" role="menuitem">Sign out</button>
         </div>
       )}
     </div>
@@ -52,7 +52,7 @@ function ThemeToggle() {
     const next = !light; setLight(next)
     document.documentElement.dataset.theme = next ? 'light' : 'dark'
     localStorage.setItem('pg.theme', next ? 'light' : 'dark')
-    document.querySelector('meta[name=theme-color]')?.setAttribute('content', next ? '#FFFFFF' : '#12100E')
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', next ? '#FFFFFF' : '#11141C')
   }
   return <button onClick={flip} className="btn btn-ghost btn-sm !px-2" aria-label={light ? 'Switch to dark theme' : 'Switch to light theme'} aria-pressed={light}><Icon name={light ? 'Moon' : 'Sun'} size={18} /></button>
 }
@@ -61,7 +61,7 @@ function Header() {
   const [drawer, setDrawer] = useState(false); const { pathname } = useLocation()
   useEffect(() => setDrawer(false), [pathname])
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-ink/60 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-40 border-b border-line bg-ink">
       <div className="container-x flex h-16 items-center gap-4">
         <button className="btn btn-ghost btn-sm lg:hidden -ml-2" aria-label="Open menu" onClick={() => setDrawer(true)}><Icon name="Menu" size={20} /></button>
         <Logo />
@@ -72,11 +72,11 @@ function Header() {
       </div>
       {drawer && (
         <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal aria-label="Menu">
-          <div className="absolute inset-0 bg-black/70" onClick={() => setDrawer(false)} />
-          <div className="absolute inset-y-0 left-0 w-[85%] max-w-sm overflow-y-auto border-r border-line bg-ink p-5">
+          <div className="absolute inset-0 bg-warm/20" onClick={() => setDrawer(false)} />
+          <div className="absolute inset-y-0 left-0 w-[85%] max-w-sm overflow-y-auto border-r border-line bg-ink p-5 shadow-xl">
             <div className="mb-5 flex items-center justify-between"><Logo /><button className="btn btn-ghost btn-sm" onClick={() => setDrawer(false)} aria-label="Close"><Icon name="X" /></button></div>
             <SearchBar className="mb-5" />
-            {menus.map((m) => (<div key={m.label} className="mb-4"><p className="label">{m.label}</p>{m.items.map(([l, to]) => <NavLink key={to + l} to={to} className="block py-2 text-sm text-warm/80">{l}</NavLink>)}</div>))}
+            {menus.map((m) => (<div key={m.label} className="mb-4"><p className="label">{m.label}</p>{m.items.map(([l, to]) => <NavLink key={to + l} to={to} className="block py-2 text-sm text-warm/70">{l}</NavLink>)}</div>))}
           </div>
         </div>
       )}
@@ -99,7 +99,7 @@ function Newsletter() {
     <div>
       <h3 className="text-lg font-bold">Stay in the loop</h3>
       <p className="mt-1 text-sm text-mute">Latest updates and exclusive resources.</p>
-      {done ? <p className="mt-4 text-sm text-accent">Thanks — you’re on the list.</p> : (
+      {done ? <p className="mt-4 text-sm text-accent">Thanks — you're on the list.</p> : (
         <form onSubmit={submit} className="mt-4 flex gap-2"><input className="field" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" aria-label="Email address" /><button className="btn btn-primary !px-3" aria-label="Subscribe"><Icon name="ArrowRight" /></button></form>
       )}
     </div>
@@ -108,7 +108,7 @@ function Newsletter() {
 
 function Footer() {
   return (
-    <footer className="mt-24 border-t border-line">
+    <footer className="mt-24 border-t border-line bg-graphite">
       <div className="container-x grid gap-10 py-12 lg:grid-cols-[1.2fr_3fr_1.4fr]">
         <div><Logo size="lg" /><p className="mt-4 max-w-[200px] text-sm text-mute">Your creative universe for gaming.</p>
           <div className="mt-5 flex gap-3 text-mute">{['MessageCircle', 'Twitter', 'Youtube', 'Instagram'].map((n) => <a key={n} href="#" onClick={(e) => e.preventDefault()} aria-label={n} className="hover:text-accent"><Icon name={n} /></a>)}</div></div>
@@ -123,7 +123,7 @@ function Footer() {
 export default function Layout() {
   return (
     <div className="flex min-h-screen flex-col">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-ink">Skip to content</a>
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-white">Skip to content</a>
       <Header /><div id="main" className="flex-1"><Outlet /></div><Footer /><Toasts />
     </div>
   )
