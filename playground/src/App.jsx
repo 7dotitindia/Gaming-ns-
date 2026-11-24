@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import { Explore, Categories } from './pages/Explore'
 import AssetDetail from './pages/AssetDetail'
+import Esports from './pages/Esports'
 import { Login, Register } from './pages/Auth'
 import { Static, NotFound } from './pages/Static'
 
@@ -25,6 +26,8 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="explore" element={<Explore />} />
+          <Route path="esports" element={<Esports />} />
+          <Route path="assets/esports-kits" element={<Navigate to="/esports" replace />} />
           <Route path="categories" element={<Categories />} />
           <Route path="trending" element={<Explore preset="trending" />} />
           <Route path="free" element={<Explore preset="free" />} />
@@ -63,6 +66,9 @@ export default function App() {
           <Route path="my-collections" element={dash('collections')} />
           <Route path="my-designs" element={dash('designs')} />
           <Route path="settings" element={dash('settings')} />
+          <Route path="my-uploads" element={dash('uploads')} />
+          <Route path="creator-profile" element={dash('creator')} />
+          <Route path="license-history" element={dash('licenses')} />
           <Route path="admin" element={<Admin />} />
 
           {['pricing', 'about', 'contact', 'licensing', 'advertise', 'privacy', 'terms'].map((p) => <Route key={p} path={p} element={<Static page={p} />} />)}

@@ -5,32 +5,33 @@ import Art from '../components/Art'
 import { assets, categories, creators, getCat } from '../lib/data'
 
 const PAGE = 9
-const sorts = [['relevance', 'Relevance'], ['newest', 'Newest'], ['trending', 'Trending'], ['downloads', 'Most downloaded'], ['rating', 'Highest rated']]
+const sorts = [['relevance', 'Relevance'], ['newest', 'Newest'], ['trending', 'Trending'], ['price-asc', 'Price: low to high'], ['price-desc', 'Price: high to low']]
 const allFormats = [...new Set(assets.flatMap((a) => a.formats))].sort()
 const allCompat = [...new Set(assets.flatMap((a) => a.compat))].sort()
 const licenseKind = (a) => (a.license.startsWith('CC0') ? 'CC0' : a.license.includes('Extended') ? 'Extended' : a.license.includes('Free') ? 'Free' : 'Standard')
 
 const Group = ({ title, children }) => <fieldset className="border-b border-line py-4 first:pt-0"><legend className="label">{title}</legend><div className="space-y-2">{children}</div></fieldset>
 const Check = ({ checked, onChange, children }) => (
-  <label className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="checkbox" checked={checked} onChange={onChange} className="h-4 w-4 accent-[#4F46E5]" />{children}</label>
+  <label className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="checkbox" checked={checked} onChange={onChange} className="h-4 w-4 accent-[#2447F5]" />{children}</label>
 )
 
 function Filters({ f, set, toggle, reset }) {
   return (
     <div>
       <Group title="Price">{[['', 'All'], ['free', 'Free'], ['premium', 'Premium']].map(([v, l]) => (
-        <label key={v} className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="radio" name="price" checked={f.price === v} onChange={() => set({ price: v })} className="accent-[#4F46E5]" />{l}</label>))}</Group>
+        <label key={v} className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="radio" name="price" checked={f.price === v} onChange={() => set({ price: v })} className="accent-[#2447F5]" />{l}</label>))}</Group>
       <Group title="File format"><div className="flex flex-wrap gap-1.5">{allFormats.map((x) => <Chip key={x} on={f.fmt.includes(x)} onClick={() => toggle('fmt', x)}>{x}</Chip>)}</div></Group>
       <Group title="Compatibility"><div className="flex flex-wrap gap-1.5">{allCompat.slice(0, 12).map((x) => <Chip key={x} on={f.compat.includes(x)} onClick={() => toggle('compat', x)}>{x}</Chip>)}</div></Group>
       <Group title="License">{['Free', 'Standard', 'Extended', 'CC0'].map((l) => <Check key={l} checked={f.lic.includes(l)} onChange={() => toggle('lic', l)}>{l}</Check>)}</Group>
-      <Group title="Minimum rating">{[0, 4, 4.5, 4.8].map((r) => (
-        <label key={r} className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="radio" name="rating" checked={f.rating === r} onChange={() => set({ rating: r })} className="accent-[#4F46E5]" />{r ? `${r}+ stars` : 'Any'}</label>))}</Group>
+      {hasRatings && <Group title="Minimum rating">{[0, 4, 4.5, 4.8].map((r) => (
+        <label key={r} className="flex cursor-pointer items-center gap-2 text-sm text-warm/70"><input type="radio" name="rating" checked={f.rating === r} onChange={() => set({ rating: r })} className="accent-[#2447F5]" />{r ? `${r}+ stars` : 'Any'}</label>))}</Group>}
       <Group title="Creator"><select className="field" value={f.creator} onChange={(e) => set({ creator: e.target.value })} aria-label="Creator"><option value="">All creators</option>{creators.map((c) => <option key={c.username} value={c.username}>{c.name}</option>)}</select></Group>
       <button className="btn btn-secondary mt-4 w-full" onClick={reset}>Reset filters</button>
     </div>
   )
 }
 
+const hasRatings = assets.some((a) => a.rating != null)
 const blank = { price: '', fmt: [], compat: [], lic: [], rating: 0, creator: '' }
 
 export function Explore({ preset }) {
@@ -55,9 +56,9 @@ export function Explore({ preset }) {
       (!f.price || (f.price === 'free') === !a.price) && (!f.fmt.length || f.fmt.some((x) => a.formats.includes(x))) &&
       (!f.compat.length || f.compat.some((x) => a.compat.includes(x))) && (!f.lic.length || f.lic.includes(licenseKind(a))) &&
       a.rating >= f.rating && (!f.creator || a.creator === f.creator))
-    const key = { downloads: 'downloads', rating: 'rating' }[sort]
-    if (key) r = [...r].sort((a, b) => b[key] - a[key])
-    if (sort === 'trending') r = [...r].sort((a, b) => (b.trending - a.trending) || b.downloads - a.downloads)
+    if (sort === 'price-asc') r = [...r].sort((a, b) => a.price - b.price)
+    if (sort === 'price-desc') r = [...r].sort((a, b) => b.price - a.price)
+    if (sort === 'trending') r = [...r].sort((a, b) => (+!!b.trending) - (+!!a.trending))
     if (sort === 'newest') r = [...r].reverse()
     return r
   }, [cat, q, f, sort])

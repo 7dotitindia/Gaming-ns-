@@ -8,7 +8,7 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
       },
-      borderRadius: { DEFAULT: '8px', lg: '12px', xl: '16px' },
+      borderRadius: { DEFAULT: '4px', lg: '6px', xl: '8px' },
       transitionDuration: { DEFAULT: '200ms' },
     },
   },

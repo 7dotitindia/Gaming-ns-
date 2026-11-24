@@ -5,23 +5,25 @@ import { useApp } from '../lib/store'
 import { categories, studioTools, tools } from '../lib/data'
 
 const menus = [
-  { label: 'Explore', to: '/explore', items: [['All assets', '/explore'], ['Trending', '/trending'], ['Free', '/free'], ['Premium', '/premium'], ['Esports kits', '/assets/esports-kits'], ['Categories', '/categories']] },
-  { label: 'Create', to: '/create', items: [['Studio home', '/create'], ...studioTools.slice(0, 5).map((t) => [t.name, `/studio/${t.slug}`])] },
+  { label: 'Explore', to: '/explore', items: [['All assets', '/explore'], ['Trending', '/trending'], ['Free', '/free'], ['Premium', '/premium'], ['Categories', '/categories'], ['Collections', '/collections']] },
+  { label: 'Esports Kits', to: '/esports' },
+  { label: 'Create', to: '/create', items: [['Studio home', '/create'], ...studioTools.slice(0, 7).map((t) => [t.name, `/studio/${t.slug}`])] },
   { label: 'Inspiration', to: '/inspiration', items: [['Gallery', '/inspiration'], ['Collections', '/collections'], ['Creators', '/creators/northframe']] },
-  { label: 'Tools', to: '/tools', items: [['All tools', '/tools'], ...tools.slice(0, 5).map((t) => [t.name, `/tools/${t.slug}`])] },
-  { label: 'Community', to: '/community', items: [['Community hub', '/community'], ['Challenges', '/challenges'], ['Upload work', '/upload'], ['Guides', '/learn']] },
+  { label: 'Tools', to: '/tools', items: [['All tools', '/tools'], ...tools.map((t) => [t.name, `/tools/${t.slug}`])] },
+  { label: 'Community', to: '/community', items: [['Community hub', '/community'], ['Challenges', '/challenges'], ['Submit work', '/upload'], ['Guides', '/learn']] },
 ]
 
 function Dropdown({ m }) {
   const [open, setOpen] = useState(false); const ref = useRef()
   useEffect(() => { const h = (e) => !ref.current?.contains(e.target) && setOpen(false); document.addEventListener('mousedown', h); return () => document.removeEventListener('mousedown', h) }, [])
+  if (!m.items) return <NavLink to={m.to} className={({ isActive }) => `flex h-9 items-center whitespace-nowrap px-3 text-sm ${isActive ? 'text-accent' : 'text-warm/70 hover:text-warm'}`}>{m.label}</NavLink>
   return (
     <div ref={ref} className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button aria-expanded={open} aria-haspopup="menu" onClick={() => setOpen(!open)} onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
-        className="flex h-9 items-center gap-1 rounded-lg px-3 text-sm text-warm/70 hover:text-warm">{m.label}<Icon name="ChevronDown" size={13} /></button>
+        className="flex h-9 items-center gap-1 px-3 text-sm text-warm/70 hover:text-warm">{m.label}<Icon name="ChevronDown" size={13} /></button>
       {open && (
         <div role="menu" className="absolute left-0 top-full z-50 w-56 pt-1">
-          <div className="rounded-xl border border-line bg-white p-1.5 shadow-lg">{m.items.map(([l, to]) => <Link role="menuitem" key={l} to={to} onClick={() => setOpen(false)} className="block rounded-md px-3 py-2 text-sm text-warm/70 hover:bg-raise hover:text-warm">{l}</Link>)}</div>
+          <div className="border border-line bg-graphite p-1.5 shadow-2xl">{m.items.map(([l, to]) => <Link role="menuitem" key={l} to={to} onClick={() => setOpen(false)} className="block px-3 py-2 text-sm text-warm/70 hover:bg-raise hover:text-warm">{l}</Link>)}</div>
         </div>
       )}
     </div>
@@ -34,27 +36,16 @@ function UserMenu() {
   if (!user) return <><Link to="/login" className="btn btn-ghost btn-sm hidden sm:inline-flex">Sign in</Link><Link to="/pricing" className="btn btn-primary btn-sm">Join Pro</Link></>
   return (
     <div ref={ref} className="relative">
-      <button onClick={() => setOpen(!open)} aria-label="Account menu" aria-expanded={open} className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-white">{user.name[0].toUpperCase()}</button>
+      <button onClick={() => setOpen(!open)} aria-label="Account menu" aria-expanded={open} className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-ink">{user.name[0].toUpperCase()}</button>
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-line bg-white p-1.5 shadow-lg" role="menu">
+        <div className="absolute right-0 top-full z-50 mt-2 w-52 border border-line bg-graphite p-1.5 shadow-2xl" role="menu">
           <p className="px-3 py-2 text-xs text-mute">Signed in as <span className="text-warm">{user.name}</span></p>
-          {[['Dashboard', '/dashboard'], ['Downloads', '/downloads'], ['Favorites', '/favorites'], ['My designs', '/my-designs'], ['Settings', '/settings'], ...(user.role === 'admin' ? [['Admin CMS', '/admin']] : [])].map(([l, to]) => <Link key={to} to={to} onClick={() => setOpen(false)} className="block rounded-md px-3 py-2 text-sm hover:bg-raise" role="menuitem">{l}</Link>)}
-          <button onClick={() => { logout(); setOpen(false) }} className="block w-full rounded-md px-3 py-2 text-left text-sm text-coral hover:bg-raise" role="menuitem">Sign out</button>
+          {[['Dashboard', '/dashboard'], ['Downloads', '/downloads'], ['Favorites', '/favorites'], ['My designs', '/my-designs'], ['My uploads', '/my-uploads'], ['Creator profile', '/creator-profile'], ['Settings', '/settings'], ...(user.role === 'admin' ? [['Admin CMS', '/admin']] : [])].map(([l, to]) => <Link key={to} to={to} onClick={() => setOpen(false)} className="block px-3 py-2 text-sm hover:bg-raise" role="menuitem">{l}</Link>)}
+          <button onClick={() => { logout(); setOpen(false) }} className="block w-full px-3 py-2 text-left text-sm text-coral hover:bg-raise" role="menuitem">Sign out</button>
         </div>
       )}
     </div>
   )
-}
-
-function ThemeToggle() {
-  const [light, setLight] = useState(() => document.documentElement.dataset.theme !== 'dark')
-  const flip = () => {
-    const next = !light; setLight(next)
-    document.documentElement.dataset.theme = next ? 'light' : 'dark'
-    localStorage.setItem('pg.theme', next ? 'light' : 'dark')
-    document.querySelector('meta[name=theme-color]')?.setAttribute('content', next ? '#FFFFFF' : '#11141C')
-  }
-  return <button onClick={flip} className="btn btn-ghost btn-sm !px-2" aria-label={light ? 'Switch to dark theme' : 'Switch to light theme'} aria-pressed={light}><Icon name={light ? 'Moon' : 'Sun'} size={18} /></button>
 }
 
 function Header() {
@@ -67,12 +58,12 @@ function Header() {
         <Logo />
         <nav className="ml-4 hidden items-center lg:flex" aria-label="Primary">{menus.map((m) => <Dropdown key={m.label} m={m} />)}</nav>
         <div className="ml-auto hidden w-full max-w-xs md:block"><SearchBar placeholder="Search assets, designs…" /></div>
-        <span className="ml-auto flex items-center md:ml-0"><ThemeToggle /><Link to="/dashboard" className="btn btn-ghost btn-sm !px-2" aria-label="Notifications"><Icon name="Bell" size={18} /></Link></span>
+        <span className="ml-auto flex items-center md:ml-0"><Link to="/dashboard" className="btn btn-ghost btn-sm !px-2" aria-label="Notifications"><Icon name="Bell" size={18} /></Link></span>
         <UserMenu />
       </div>
       {drawer && (
         <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal aria-label="Menu">
-          <div className="absolute inset-0 bg-warm/20" onClick={() => setDrawer(false)} />
+          <div className="absolute inset-0 bg-ink/70" onClick={() => setDrawer(false)} />
           <div className="absolute inset-y-0 left-0 w-[85%] max-w-sm overflow-y-auto border-r border-line bg-ink p-5 shadow-xl">
             <div className="mb-5 flex items-center justify-between"><Logo /><button className="btn btn-ghost btn-sm" onClick={() => setDrawer(false)} aria-label="Close"><Icon name="X" /></button></div>
             <SearchBar className="mb-5" />
@@ -85,7 +76,7 @@ function Header() {
 }
 
 const cols = [
-  ['Explore', [['All Assets', '/explore'], ['Trending', '/trending'], ['Free Assets', '/free'], ['Premium Assets', '/premium'], ['Esports Kits', '/assets/esports-kits']]],
+  ['Explore', [['All Assets', '/explore'], ['Trending', '/trending'], ['Free Assets', '/free'], ['Premium Assets', '/premium'], ['Esports Kits', '/esports']]],
   ['Create', [['Design Studio', '/create'], ['Logo Maker', '/studio/logo'], ['Banner Maker', '/studio/banner'], ['Overlay Editor', '/studio/overlay']]],
   ['Resources', [['Guides & Tutorials', '/learn'], ['Gaming Tools', '/tools'], ['Gaming Resources', '/gaming-resources'], ['Pricing', '/pricing'], ['Advertise', '/advertise']]],
   ['Community', [['Creator Hub', '/community'], ['Challenges', '/challenges'], ['Top Creators', '/creators/ashenpixel'], ['Submit Asset', '/upload']]],
@@ -110,12 +101,12 @@ function Footer() {
   return (
     <footer className="mt-24 border-t border-line bg-graphite">
       <div className="container-x grid gap-10 py-12 lg:grid-cols-[1.2fr_3fr_1.4fr]">
-        <div><Logo size="lg" /><p className="mt-4 max-w-[200px] text-sm text-mute">Your creative universe for gaming.</p>
+        <div><Logo size="lg" /><p className="mt-4 max-w-[200px] text-sm text-mute">Create beyond the game.</p>
           <div className="mt-5 flex gap-3 text-mute">{['MessageCircle', 'Twitter', 'Youtube', 'Instagram'].map((n) => <a key={n} href="#" onClick={(e) => e.preventDefault()} aria-label={n} className="hover:text-accent"><Icon name={n} /></a>)}</div></div>
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-5">{cols.map(([h, l]) => (<div key={h}><p className="mb-3 text-sm font-semibold">{h}</p><ul className="space-y-2">{l.map(([t, to]) => <li key={t}><Link to={to} className="text-sm text-mute hover:text-warm">{t}</Link></li>)}</ul></div>))}</div>
         <Newsletter />
       </div>
-      <div className="border-t border-line"><div className="container-x flex flex-wrap justify-between gap-2 py-5 text-xs text-mute"><span>© 2025 Playground. All rights reserved. Prototype — all listings, ratings and creators are sample data. Some photos via Unsplash.</span><span>Made for Gamers · Built by Creators</span></div></div>
+      <div className="border-t border-line"><div className="container-x flex flex-wrap justify-between gap-2 py-5 text-xs text-mute"><span>© 2025 PLAYGROUND. Demo build: listings, creators and prices are sample data; no payments are processed.</span><span>Create beyond the game</span></div></div>
     </footer>
   )
 }
@@ -123,7 +114,7 @@ function Footer() {
 export default function Layout() {
   return (
     <div className="flex min-h-screen flex-col">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-white">Skip to content</a>
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-ink">Skip to content</a>
       <Header /><div id="main" className="flex-1"><Outlet /></div><Footer /><Toasts />
     </div>
   )

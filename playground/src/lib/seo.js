@@ -26,8 +26,9 @@ const website = {
   potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: abs('/explore?q={search_term_string}') }, 'query-input': 'required name=search_term_string' },
 }
 
-export const PRIVATE = ['/login', '/register', '/dashboard', '/downloads', '/purchases', '/favorites', '/my-collections', '/my-designs', '/settings', '/admin', '/upload']
+export const PRIVATE = ['/login', '/register', '/dashboard', '/downloads', '/purchases', '/favorites', '/my-collections', '/my-designs', '/settings', '/admin', '/upload', '/my-uploads', '/creator-profile', '/license-history']
 const STATIC = {
+  '/esports': { title: 'Esports Team Kits: Jerseys, Logos & Matchday Graphics | PLAYGROUND', desc: 'Team identity systems, jersey and hoodie mockups, player cards, rosters, brackets and matchday graphics with clear licenses.', h1: 'Esports Team Kits' },
   '/': { title: 'PLAYGROUND | Gaming Assets, Esports Kits & Free Tools', desc: 'Discover game UI, 3D assets, stream overlays and esports team kits. Customize templates in your browser and use free gaming tools, all with clear licenses.', h1: 'Create beyond the game.' },
   '/explore': { title: 'Browse Gaming Assets & Esports Kits | PLAYGROUND', desc: 'Search and filter game UI, 3D models, overlays, audio, fonts and wallpapers by format, engine, license and price. Every listing shows its license upfront.', h1: 'Explore gaming assets' },
   '/categories': { title: 'Gaming Asset Categories | PLAYGROUND', desc: 'Browse every PLAYGROUND category: Game UI, 3D, 2D, streaming, audio, graphics, typography, animation, wallpapers and esports team kits.', h1: 'Browse by category' },

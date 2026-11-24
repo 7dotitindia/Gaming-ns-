@@ -1,0 +1,48 @@
+# PLAYGROUND
+
+> PLAYGROUND is a gaming creative marketplace for gamers, streamers, esports teams, designers and game developers. It combines a searchable asset marketplace, a browser-based Customization Studio, an inspiration community, free gaming tools and guides. All listings, ratings and creators in this prototype are sample data.
+
+## Marketplace
+- [Explore gaming assets](https://www.playground.example/explore): Search and filter game UI, 3D models, overlays, audio, fonts and wallpapers by format, engine, license and price. Every listing shows its license upfront.
+- [Browse by category](https://www.playground.example/categories): Browse every PLAYGROUND category: Game UI, 3D, 2D, streaming, audio, graphics, typography, animation, wallpapers and esports team kits.
+- [Free assets](https://www.playground.example/free): Free game UI kits, wallpapers, sprites and stream packs with the license shown before you download, so you know exactly how you can use them.
+- [Premium assets](https://www.playground.example/premium): Premium overlays, 3D environments, esports kits and sound packs from independent creators, with transparent one-time pricing and license terms.
+- [Esports Team Kits](https://www.playground.example/esports): Team identity systems, jersey and hoodie mockups, player cards, rosters, brackets and matchday graphics with clear licenses.
+
+## Create
+- [Customization Studio](https://www.playground.example/create): Design gaming banners, logos, YouTube thumbnails, overlays and team posters in your browser. Start from a template, edit, and export PNG or JPG.
+- [Gaming Banner Maker](https://www.playground.example/studio/banner): Gaming Banner Maker: X / Twitch / YouTube banners. Edit a template in your browser and export PNG or JPG at 1500×500.
+- [Logo / Badge Maker](https://www.playground.example/studio/logo): Logo / Badge Maker: Team and channel marks. Edit a template in your browser and export PNG or JPG at 1000×1000.
+- [YouTube Thumbnail Maker](https://www.playground.example/studio/thumbnail): YouTube Thumbnail Maker: 1280×720 thumbnails. Edit a template in your browser and export PNG or JPG at 1280×720.
+- [Stream Overlay Editor](https://www.playground.example/studio/overlay): Stream Overlay Editor: Scene overlays for OBS. Edit a template in your browser and export PNG or JPG at 1920×1080.
+- [Esports Team Poster Maker](https://www.playground.example/studio/team-poster): Esports Team Poster Maker: Matchday and roster posters. Edit a template in your browser and export PNG or JPG at 1080×1350.
+- [Gamer Profile Card](https://www.playground.example/studio/profile-card): Gamer Profile Card: Share-ready profile cards. Edit a template in your browser and export PNG or JPG at 1200×630.
+- [Discord Server Banner](https://www.playground.example/studio/discord-banner): Discord Server Banner: Server invite banners. Edit a template in your browser and export PNG or JPG at 960×540.
+- [Wallpaper Creator](https://www.playground.example/studio/wallpaper): Wallpaper Creator: Desktop wallpapers. Edit a template in your browser and export PNG or JPG at 1920×1080.
+
+## Tools
+- [Powerful gaming tools](https://www.playground.example/tools): Free browser gaming tools: crosshair generator, sensitivity converter, name generator, FPS calculator, PC build planner, palette and resolution tools.
+- [Crosshair Generator](https://www.playground.example/tools/crosshair): Design a crosshair and copy settings. Free, no sign-up, works in your browser on desktop and mobile.
+- [Sensitivity Converter](https://www.playground.example/tools/sensitivity): Convert sensitivity between games. Free, no sign-up, works in your browser on desktop and mobile.
+- [Gaming Name Generator](https://www.playground.example/tools/name-generator): Generate gamertag ideas by style. Free, no sign-up, works in your browser on desktop and mobile.
+- [FPS Calculator](https://www.playground.example/tools/fps): Frame time and refresh-rate maths. Free, no sign-up, works in your browser on desktop and mobile.
+- [PC Build Planner](https://www.playground.example/tools/pc-builder): Plan parts, check compatibility. Free, no sign-up, works in your browser on desktop and mobile.
+- [Color Palette Generator](https://www.playground.example/tools/palette): Create, lock and export palettes. Free, no sign-up, works in your browser on desktop and mobile.
+- [Resolution Calculator](https://www.playground.example/tools/resolution): Aspect ratio and pixel dimensions. Free, no sign-up, works in your browser on desktop and mobile.
+- [Gaming Setup Planner](https://www.playground.example/tools/setup-planner): Checklist and desk layout planner. Free, no sign-up, works in your browser on desktop and mobile.
+
+## Guides
+- [Guides & tutorials](https://www.playground.example/learn): Practical guides on OBS setup, stream overlays, gaming branding, thumbnails, free game assets, Unity vs Unreal and PC setup.
+- [OBS setup for beginners](https://www.playground.example/guides/obs-setup-for-beginners): Scenes, sources, audio and bitrate — a clean first setup. A 8 min read for streaming creators.
+- [How to design stream overlays that don’t get in the way](https://www.playground.example/guides/design-stream-overlays): Safe areas, hierarchy and motion rules for overlays. A 6 min read for design creators.
+- [Gaming branding basics](https://www.playground.example/guides/gaming-branding-basics): Build a consistent identity across avatar, banner and thumbnail. A 7 min read for branding creators.
+- [Thumbnail design that earns the click](https://www.playground.example/guides/thumbnail-design): Contrast, faces, text size and testing. A 5 min read for design creators.
+- [Finding free game-development assets safely](https://www.playground.example/guides/free-game-dev-assets): Read licenses properly and avoid takedown surprises. A 9 min read for game dev creators.
+- [Unity vs Unreal for small teams](https://www.playground.example/guides/unity-vs-unreal): A practical comparison for small teams and solo devs. A 10 min read for game dev creators.
+- [PC setup guide for competitive play](https://www.playground.example/guides/pc-setup-guide): Monitor, peripherals and settings that matter. A 8 min read for hardware creators.
+- [Creator workflows: from idea to published](https://www.playground.example/guides/creator-workflows): A repeatable process for shipping design work. A 6 min read for workflow creators.
+
+## Trust & policy
+- [Licensing](https://www.playground.example/licensing): How PLAYGROUND licenses work: Free, Standard, Extended and CC0, what each allows, and how to report a copyright issue.
+- [About PLAYGROUND](https://www.playground.example/about): PLAYGROUND is a creative space for gamers, streamers, esports teams, designers and game developers: assets, a browser editor, tools and community.
+- [Contact us](https://www.playground.example/contact): Get in touch about support, copyright takedowns, creator questions or advertising.

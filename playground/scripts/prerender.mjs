@@ -15,7 +15,7 @@ const { faqsFor } = await vite.ssrLoadModule('/src/lib/faqs.js')
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const template = await readFile(join(dist, 'index.html'), 'utf8')
 
-const nav = [['Explore assets', '/explore'], ['Esports team kits', '/assets/esports-kits'], ['Customization Studio', '/create'], ['Gaming tools', '/tools'], ['Inspiration', '/inspiration'], ['Guides', '/learn'], ['Licensing', '/licensing'], ['About', '/about']]
+const nav = [['Explore assets', '/explore'], ['Esports team kits', '/esports'], ['Customization Studio', '/create'], ['Gaming tools', '/tools'], ['Inspiration', '/inspiration'], ['Guides', '/learn'], ['Licensing', '/licensing'], ['About', '/about']]
 
 function render(path, m) {
   const url = abs(path), img = abs(m.image)
@@ -66,7 +66,7 @@ await write(join(dist, 'robots.txt'), `${bots.map((b) => `User-agent: ${b}\nAllo
 
 // llms.txt — concise, link-rich site summary for LLM-based search and assistants.
 const section = (title, list) => `## ${title}\n${list.map((p) => { const m = routeMeta(p); return `- [${m.h1}](${abs(p)}): ${m.desc}` }).join('\n')}\n`
-await write(join(dist, 'llms.txt'), `# PLAYGROUND\n\n> PLAYGROUND is a gaming creative marketplace for gamers, streamers, esports teams, designers and game developers. It combines a searchable asset marketplace, a browser-based Customization Studio, an inspiration community, free gaming tools and guides. All listings, ratings and creators in this prototype are sample data.\n\n${section('Marketplace', ['/explore', '/categories', '/free', '/premium', '/assets/esports-kits'])}\n${section('Create', ['/create', ...routes.filter((p) => p.startsWith('/studio/'))])}\n${section('Tools', ['/tools', ...routes.filter((p) => p.startsWith('/tools/'))])}\n${section('Guides', ['/learn', ...routes.filter((p) => p.startsWith('/guides/'))])}\n${section('Trust & policy', ['/licensing', '/about', '/contact'])}`)
+await write(join(dist, 'llms.txt'), `# PLAYGROUND\n\n> PLAYGROUND is a gaming creative marketplace for gamers, streamers, esports teams, designers and game developers. It combines a searchable asset marketplace, a browser-based Customization Studio, an inspiration community, free gaming tools and guides. All listings, ratings and creators in this prototype are sample data.\n\n${section('Marketplace', ['/explore', '/categories', '/free', '/premium', '/esports'])}\n${section('Create', ['/create', ...routes.filter((p) => p.startsWith('/studio/'))])}\n${section('Tools', ['/tools', ...routes.filter((p) => p.startsWith('/tools/'))])}\n${section('Guides', ['/learn', ...routes.filter((p) => p.startsWith('/guides/'))])}\n${section('Trust & policy', ['/licensing', '/about', '/contact'])}`)
 
 await vite.close()
 console.log(`prerendered ${routes.length} routes + ${PRIVATE.length} app shells → sitemap.xml, robots.txt, llms.txt (${SITE.url})`)

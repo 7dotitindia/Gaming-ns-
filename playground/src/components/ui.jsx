@@ -12,7 +12,7 @@ export const Icon = ({ name, ...p }) => { const C = Lucide[name] || Lucide.Circl
 
 export const Logo = ({ size = 'md' }) => (
   <Link to="/" className="inline-flex items-center gap-2 font-display font-bold tracking-wide" aria-label="PLAYGROUND home">
-    <svg width={size === 'lg' ? 30 : 24} height={size === 'lg' ? 30 : 24} viewBox="0 0 32 32" aria-hidden><path d="M4 3l24 13L4 29l5-13z" fill="rgb(79,70,229)" /></svg>
+    <svg width={size === 'lg' ? 30 : 24} height={size === 'lg' ? 30 : 24} viewBox="0 0 32 32" aria-hidden><path d="M4 3l24 13L4 29l5-13z" fill="rgb(36,71,245)" /></svg>
     <span className={size === 'lg' ? 'text-xl' : 'text-[15px]'}>PLAYGROUND</span>
   </Link>
 )
@@ -46,7 +46,7 @@ export const Stars = ({ v, n }) => (
 )
 
 export const PriceTag = ({ price }) => (
-  <span className={`rounded-md px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider font-semibold ${price ? 'bg-warm/90 text-ink' : 'bg-mint text-white'}`}>{price ? `$${price}` : 'Free'}</span>
+  <span className={`rounded-md px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider font-semibold ${price ? 'bg-warm text-ink' : 'bg-accent text-ink'}`}>{price ? `$${price}` : 'Free'}</span>
 )
 
 export const Empty = ({ icon = 'SearchX', title, text, action }) => (
@@ -79,26 +79,35 @@ export function SaveButton({ slug, className = '' }) {
   const { favorites, toggleFav } = useApp(); const gate = useGate(); const on = favorites.includes(slug)
   return (
     <button onClick={gate(() => toggleFav(slug))} aria-pressed={on} aria-label={on ? 'Remove from favorites' : 'Save to favorites'}
-      className={`grid h-8 w-8 place-items-center rounded-full bg-white/90 border border-line shadow-sm hover:border-accent transition ${className}`}>
-      <Icon name="Heart" size={15} className={on ? 'fill-coral text-coral' : 'text-mute'} />
+      className={`grid h-8 w-8 place-items-center rounded-full bg-ink/80 border border-line shadow-sm hover:border-accent transition ${className}`}>
+      <Icon name="Heart" size={15} className={on ? 'fill-accent text-accent' : 'text-warm/70'} />
     </button>
   )
 }
 
-export function AssetCard({ a }) {
-  const cat = getCat(a.cat); const cr = getCreator(a.creator)
+export function AssetCard({ a, tall = false }) {
+  const cat = getCat(a.cat); const cr = getCreator(a.creator); const [peek, setPeek] = useState(false)
   return (
-    <article className="group relative card overflow-hidden transition hover:border-mute hover:-translate-y-0.5 hover:shadow-md">
-      <Link to={`/asset/${a.slug}`} className="relative block aspect-video overflow-hidden">
-        <div className="h-full w-full transition duration-300 group-hover:scale-[1.03]"><Art kind={a.art} seed={a.seed} src={a.img} label={`${a.title} preview`} /></div>
-        <span className="absolute left-2 top-2"><PriceTag price={a.price} /></span>
+    <article className="group relative overflow-hidden border border-line bg-graphite transition hover:border-warm/50">
+      <Link to={`/asset/${a.slug}`} className={`relative block overflow-hidden ${tall ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}>
+        <div className="h-full w-full transition duration-500 group-hover:scale-[1.04]"><Art kind={a.art} seed={a.seed} src={a.img} label={`${a.title} preview`} /></div>
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/70 to-transparent" aria-hidden />
+        <span className={`absolute left-0 top-3 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider ${a.price ? 'bg-accent text-ink' : 'bg-warm text-ink'}`}>{a.price ? `Premium · $${a.price}` : 'Free'}</span>
       </Link>
-      <SaveButton slug={a.slug} className="absolute right-2 top-2" />
-      <div className="p-3">
-        <Link to={`/asset/${a.slug}`} className="block truncate text-sm font-semibold hover:text-accent">{a.title}</Link>
-        <p className="mt-0.5 truncate text-xs text-mute">{cat?.name} · {cr?.name}</p>
-        <div className="mt-2 flex items-center justify-between"><Stars v={a.rating} n={a.reviews} /><span className="inline-flex items-center gap-1 text-xs text-mute"><Icon name="Download" size={12} />{fmtNum(a.downloads)}</span></div>
+      <div className="absolute right-2 top-2 flex flex-col gap-1.5">
+        <SaveButton slug={a.slug} />
+        <button onClick={() => setPeek(true)} aria-label={`Preview ${a.title}`} className="grid h-8 w-8 place-items-center rounded-full border border-line bg-ink/80 text-mute opacity-0 transition hover:text-warm focus:opacity-100 group-hover:opacity-100"><Icon name="Eye" size={15} /></button>
       </div>
+      <div className="p-3.5">
+        <Link to={`/asset/${a.slug}`} className="block truncate font-display text-[15px] font-semibold hover:text-accent">{a.title}</Link>
+        <p className="mt-0.5 truncate text-xs text-mute">{cr?.name} <span className="mx-1 text-line">/</span> {cat?.name}</p>
+        <div className="mt-3 flex items-center justify-between">{a.rating != null ? <Stars v={a.rating} n={a.reviews} /> : <span className="font-mono text-[10px] uppercase tracking-wider text-mute">{a.formats.slice(0, 3).join(' · ')}</span>}<span className="font-mono text-xs">{a.price ? `$${a.price}` : 'Free'}</span></div>
+      </div>
+      <Modal open={peek} onClose={() => setPeek(false)} title={a.title} wide>
+        <div className="aspect-video overflow-hidden border border-line"><Art kind={a.art} seed={a.seed} src={a.img} sizes="60vw" /></div>
+        <p className="mt-3 text-sm text-warm/75">{a.desc}</p>
+        <div className="mt-4 flex items-center justify-between"><span className="font-mono text-xs text-mute">{a.formats.join(' · ')}</span><Link to={`/asset/${a.slug}`} className="btn btn-primary btn-sm">Open asset page</Link></div>
+      </Modal>
     </article>
   )
 }
@@ -115,13 +124,13 @@ export function SearchBar({ big, placeholder = 'Search assets, templates, or too
   )
 }
 
-export function Modal({ open, onClose, title, children }) {
+export function Modal({ open, onClose, title, children, wide }) {
   useEffect(() => { if (!open) return; const k = (e) => e.key === 'Escape' && onClose(); window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) }, [open, onClose])
   return (
     <AnimatePresence>
       {open && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] grid place-items-center bg-warm/30 p-4" onClick={onClose}>
-          <motion.div role="dialog" aria-modal aria-label={title} initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} className="card w-full max-w-md p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] grid place-items-center bg-ink/80 p-4" onClick={onClose}>
+          <motion.div role="dialog" aria-modal aria-label={title} initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} className={`card w-full p-6 shadow-2xl ${wide ? "max-w-2xl" : "max-w-md"}`} onClick={(e) => e.stopPropagation()}>
             <div className="mb-4 flex items-center justify-between"><h3 className="text-lg font-bold">{title}</h3><button className="btn btn-ghost btn-sm" onClick={onClose} aria-label="Close"><Icon name="X" /></button></div>
             {children}
           </motion.div>
@@ -137,7 +146,7 @@ export function Toasts() {
     <div className="pointer-events-none fixed bottom-4 right-4 z-[80] flex flex-col gap-2" role="status" aria-live="polite">
       <AnimatePresence>
         {toasts.map((t) => (
-          <motion.div key={t.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="pointer-events-auto flex items-center gap-2 rounded-xl border border-line bg-white px-4 py-3 text-sm shadow-lg">
+          <motion.div key={t.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="pointer-events-auto flex items-center gap-2 border border-line bg-graphite px-4 py-3 text-sm shadow-2xl">
             <Icon name={t.kind === 'info' ? 'Info' : 'CircleCheck'} size={16} className="text-accent" />{t.msg}
           </motion.div>
         ))}
@@ -168,7 +177,7 @@ export const Chip = ({ on, children, ...p }) => <button aria-pressed={on} classN
 export const Toggle = ({ checked, onChange, label }) => (
   <label className="flex cursor-pointer items-center justify-between gap-3 text-sm">{label}
     <button type="button" role="switch" aria-checked={checked} onClick={() => onChange(!checked)} className={`relative h-5 w-9 rounded-full transition ${checked ? 'bg-accent' : 'bg-line'}`}>
-      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-all ${checked ? 'left-[18px]' : 'left-0.5'}`} />
+      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-graphite shadow-sm transition-all ${checked ? 'left-[18px]' : 'left-0.5'}`} />
     </button>
   </label>
 )
@@ -181,7 +190,7 @@ export function Faq({ path, title = 'Frequently asked questions' }) {
   if (!items.length) return null
   return (
     <section className="mt-16" aria-labelledby="faq-h"><h2 id="faq-h" className="mb-4 text-xl font-bold md:text-2xl">{title}</h2>
-      <div className="divide-y divide-line rounded-xl border border-line bg-white">{items.map(([q, a]) => (
+      <div className="divide-y divide-line rounded-xl border border-line bg-graphite">{items.map(([q, a]) => (
         <details key={q} className="group px-5 py-4"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold md:text-base">{q}<Icon name="ChevronDown" size={16} className="shrink-0 text-mute transition group-open:rotate-180" /></summary><p className="mt-3 text-sm leading-relaxed text-warm/75">{a}</p></details>))}</div>
     </section>
   )
